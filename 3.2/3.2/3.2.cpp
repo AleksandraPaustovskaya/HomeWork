@@ -6,42 +6,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int partition(int A[], int lo, int hi)
+{
+	int pivot = A[hi];
+	int i = lo;
+	for (int j = lo; j < hi; j++)
+	{
+		if (A[j] <= pivot)
+		{
+			int swap = A[i];
+			A[i] = A[j];
+			A[j] = swap;
+			i = i++;
+		}
+	}
+	int swap = A[i];
+	A[i] = A[hi];
+	A[hi] = swap;
+	return i;
+}
+
 void sort(int array[], int start, int end)
 {
-	int low = start;
-	int more = end;
-	int work = array[start];
-	int counting = 0;
-	while (low < more)
+	if (start < end)
 	{
-		if (counting % 2)
-		{
-			while ((array[low] < work) && (low < more))
-			{
-				low++;
-			}	
-		}
-		else
-		{
-			while ((work <= array[more]) && (low < more))
-			{
-				more--;
-			}
-		}
-		
-		int swap = array[low];
-		array[low] = array[more];
-		array[more] = swap;
-		counting++;
-	}
-	
-	if (low - start > 0)
-	{
-		sort(array, start, low - 1);
-	}
-	if (more < end)
-	{
-		sort(array, more + 1, end);
+		int p = partition(array, start, end);
+		sort(array, start, p - 1);
+		sort(array, p + 1, end);
 	}
 }
 
@@ -67,6 +58,12 @@ void search(int array[], int size, int numbers[], int quantity, bool answer[])
 			{
 				answer[i] = true;
 				break;
+				
+			}
+			if (((left + right) % 2) && (numbers[i] == array[middle + 1]))
+			{
+				answer[i] = true;
+				break;
 			}
 		}
 	}
@@ -87,23 +84,23 @@ bool test()
 		}
 	}
 	search(checkArray, 9, arrayOfNumbers, 5, answer);
-	if (answer[0] == 1)
+	if (answer[0])
 	{
 		return false;
 	}
-	if (answer[1] == 1)
+	if (answer[1])
 	{
 		return false;
 	}
-	if (answer[2] == 1)
+	if (answer[2])
 	{
 		return false;
 	}
-	if (answer[3] == 0)
+	if (!answer[3])
 	{
 		return false;
 	}
-	if (answer[4] == 0)
+	if (!answer[4])
 	{
 		return false;
 	}
@@ -152,6 +149,26 @@ bool test()
 			return false;
 		}
 	}
+	
+	for (int i = 0; i < 10; i++)
+	{
+		checkArray[i] = i;
+		arrayOfNumbers[i] = i;
+		answer[i] = 0;
+	}
+	sort(checkArray, 0, 9);
+	search(checkArray, 9, arrayOfNumbers, 9, answer);
+	for (int i = 1; i < 10; i++)
+	{
+		if (checkArray[i - 1] > checkArray[i])
+		{
+			return false;
+		}
+		if (!(answer[i]))
+		{
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -173,6 +190,7 @@ int main()
 	for (int i = 0; i < n; i++)
 	{
 		randomArray[i] = rand() % 100;
+		printf("randomArray = %d\n", randomArray[i]);
 	}
 
 	int randomNumbers[1000]{};
