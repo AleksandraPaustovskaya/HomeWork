@@ -4,42 +4,34 @@
 
 #include <stdio.h>
 
+
+int partition(int array[], int lo, int hi)
+{
+	int pivot = array[hi];
+	int i = lo;
+	for (int j = lo; j < hi; j++)
+	{
+		if (array[j] <= pivot)
+		{
+			int swap = array[i];
+			array[i] = array[j];
+			array[j] = swap;
+			i = i++;
+		}
+	}
+	int swap = array[i];
+	array[i] = array[hi];
+	array[hi] = swap;
+	return i;
+}
+
 void sort(int array[], int start, int end)
 {
-	int low = start;
-	int more = end;
-	int work = array[start];
-	int counting = 0;
-	while (low < more)
+	if (start < end)
 	{
-		if (counting % 2)
-		{
-			while ((array[low] < work) && (low < more))
-			{
-				low++;
-			}
-		}
-		else
-		{
-			while ((work <= array[more]) && (low < more))
-			{
-				more--;
-			}
-		}
-
-		int swap = array[low];
-		array[low] = array[more];
-		array[more] = swap;
-		counting++;
-	}
-
-	if (low - start > 0)
-	{
-		sort(array, start, low - 1);
-	}
-	if (more < end)
-	{
-		sort(array, more + 1, end);
+		int p = partition(array, start, end);
+		sort(array, start, p - 1);
+		sort(array, p + 1, end);
 	}
 }
 
