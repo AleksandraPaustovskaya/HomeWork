@@ -42,10 +42,20 @@ void search(int array[], int size, int numbers[], int quantity, bool answer[])
 	{
 		int left = 0;
 		int right = size;
-		while (left < right - 1)
+		while (left < right)
 		{
+			if (right - left == 1)
+			{
+				if ((numbers[i] == array[left]) || (numbers[i] == array[right]))
+				{
+					answer[i] == true;
+				}
+				else
+				{
+					break;
+				}
+			}
 			int middle = (left + right) / 2;
-
 			if (numbers[i] < array[middle])
 			{
 				right = middle;
@@ -58,9 +68,8 @@ void search(int array[], int size, int numbers[], int quantity, bool answer[])
 			{
 				answer[i] = true;
 				break;
-				
 			}
-			if (((left + right) % 2) && (numbers[i] == array[middle + 1]))
+			if (((left + right) % 2) && ((numbers[i] == array[middle + 1]) || (numbers[i] == array[middle - 1])))
 			{
 				answer[i] = true;
 				break;
@@ -104,7 +113,7 @@ bool test()
 	{
 		return false;
 	}
-	
+
 	for (int i = 90; i >= 0; i--)
 	{
 		checkArray[90 - i] = i;
@@ -126,7 +135,7 @@ bool test()
 
 	for (int i = 90; i >= 3; i = i - 2)
 	{
-		checkArray[90 - i] =  checkArray[i] / i;
+		checkArray[90 - i] = checkArray[i] / i;
 	}
 	sort(checkArray, 0, 90);
 	for (int i = 1; i < 90; i++)
@@ -149,7 +158,7 @@ bool test()
 			return false;
 		}
 	}
-	
+
 	for (int i = 0; i < 10; i++)
 	{
 		checkArray[i] = i;
@@ -173,24 +182,33 @@ bool test()
 	for (int i = 0; i < 3; i++)
 	{
 		checkArray[i] = i;
-		checkArray[i + 3] = i;
 		arrayOfNumbers[i] = i;
 		answer[i] = 0;
 	}
-	sort(checkArray, 0, 5);
-	search(checkArray, 5, arrayOfNumbers, 2, answer);
-	for (int i = 1; i < 6; i++)
+	sort(checkArray, 0, 2);
+	search(checkArray, 2, arrayOfNumbers, 2, answer);
+	for (int i = 0; i < 2; i++)
 	{
-		if (checkArray[i - 1] > checkArray[i])
+		if (checkArray[i] > checkArray[i + 1])
 		{
 			return false;
 		}
-		if (!(answer[i / 2]))
+		if (!(answer[i]))
 		{
 			return false;
 		}
 	}
+	if (!answer[2])
+	{
+		return false;
+	}
 
+	sort(checkArray, 0, 1);
+	search(checkArray, 1, arrayOfNumbers, 1, answer);
+	if (checkArray[0] > checkArray[1] || !answer[0] || !answer[1])
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -207,17 +225,23 @@ int main()
 	int k = 0;
 	scanf("%d", &k);
 
+	//printf("Enter array\n");
+
 	int randomArray[1000]{};
 	for (int i = 0; i < n; i++)
 	{
 		randomArray[i] = rand() % 100;
 		printf("randomArray = %d\n", randomArray[i]);
+		//scanf("%d", &randomArray[i]);
 	}
+
+	//printf("Enter numbers\n");
 
 	int randomNumbers[1000]{};
 	for (int i = 0; i < k; i++)
 	{
 		randomNumbers[i] = rand() % 100;
+		//scanf("%d", &randomNumbers[i]);
 	}
 
 	bool answer[1000]{};
