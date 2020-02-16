@@ -44,16 +44,9 @@ void search(int array[], int size, int numbers[], int quantity, bool answer[])
 		int right = size;
 		while (left < right)
 		{
-			if (right - left == 1)
+			if ((right - left == 1) && !((numbers[i] == array[left]) || (numbers[i] == array[right])))
 			{
-				if ((numbers[i] == array[left]) || (numbers[i] == array[right]))
-				{
-					answer[i] == true;
-				}
-				else
-				{
-					break;
-				}
+				break; 
 			}
 			int middle = (left + right) / 2;
 			if (numbers[i] < array[middle])
@@ -205,10 +198,11 @@ bool test()
 
 	sort(checkArray, 0, 1);
 	search(checkArray, 1, arrayOfNumbers, 1, answer);
-	if (checkArray[0] > checkArray[1] || !answer[0] || !answer[1])
+	if ((checkArray[0] > checkArray[1]) || !answer[0] || !answer[1])
 	{
 		return false;
 	}
+
 	return true;
 }
 
@@ -225,23 +219,16 @@ int main()
 	int k = 0;
 	scanf("%d", &k);
 
-	//printf("Enter array\n");
-
 	int randomArray[1000]{};
 	for (int i = 0; i < n; i++)
 	{
 		randomArray[i] = rand() % 100;
-		printf("randomArray = %d\n", randomArray[i]);
-		//scanf("%d", &randomArray[i]);
 	}
-
-	//printf("Enter numbers\n");
 
 	int randomNumbers[1000]{};
 	for (int i = 0; i < k; i++)
 	{
 		randomNumbers[i] = rand() % 100;
-		//scanf("%d", &randomNumbers[i]);
 	}
 
 	bool answer[1000]{};
