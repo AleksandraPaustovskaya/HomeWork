@@ -119,7 +119,7 @@ int main()
 		return 1;
 	}
 
-	FILE* file = fopen("Array.txt", "r");
+	FILE *file = fopen("Array.txt", "r");
 	if (!file)
 	{
 		printf("file not found!");
@@ -129,18 +129,19 @@ int main()
 	int size = 0;
 	while (!feof(file))
 	{
-		int element = 0;
-		const int readBytes = fscanf(file, "%d", element);
+		int* buffer = new int[1000];
+		const int readBytes = fscanf(file, "%d", buffer);
 		if (readBytes < 0)
 		{
 			break;
 		}
-		array[size] = element;
+		array[size] = * buffer;
 		++size;
+		delete[] buffer;
 	}
-
+	
 	fclose(file);
-
+	
 	sort(array, 0, size - 1);
 
 	int answer[2]{ 1, array[0] };
