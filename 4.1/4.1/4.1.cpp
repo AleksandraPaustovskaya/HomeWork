@@ -15,16 +15,9 @@ void translationToBin(int dec, bool bin[])
 		dec = 4294967296 + dec;
 	}
 
-	while (dec && (counter < 32))
+	while (dec && (counter < sizeof(int) * 8))
 	{
-		if (dec & 0b1)
-		{
-			bin[counter] = true;
-		}
-		else
-		{
-			bin[counter] = false;
-		}
+		bin[counter] = (dec & 1) != 0;
 		
 		dec = dec >> 1;
 		
@@ -35,7 +28,7 @@ void translationToBin(int dec, bool bin[])
 int translationToDec(bool sumBin[])
 {
 	int sumDec = 0;
-	for (int i = 31; i >= 0; i--)
+	for (int i = sizeof(int) * 8 - 1; i >= 0; i--)
 	{
 		sumDec = sumDec | sumBin[i];
 		if (i)
@@ -126,7 +119,7 @@ int main()
 		return -1;
 	}
 	setlocale(LC_ALL, "Rus");
-    printf ("Введите первое слагаемое: ");
+	printf ("Введите первое слагаемое: ");
 	int summand1 = 0;
 	scanf("%d", &summand1);
 	
@@ -173,4 +166,6 @@ int main()
 
 	int summaDec = translationToDec(summaBin);
 	printf("\n\nОтвет в десятичном виде: %d.\n", summaDec);
+
+	return 0;
 }
