@@ -24,7 +24,7 @@ int main()
 		return -1;
 	}
 
-	int comand = 1;
+	int command = 1;
 	printf("Здравствуйте!");
 	Tree *tree = createTree();
 	while (true)
@@ -36,9 +36,9 @@ int main()
 		printf("3 - Проверить наличие заданного ключа в словаре.\n");
 		printf("4 - Удалить заданный ключ и связанное с ним значение из словаря.\n\n");
 
-		scanf("%d", &comand);
+		scanf("%d", &command);
 		int key = 0;
-		switch (comand)
+		switch (command)
 		{
 		case 0:
 		{
@@ -72,6 +72,7 @@ int main()
 			{
 				printf("Искомое значение отсутствует!\n");
 			}
+			delete[] value;
 			break;
 		}
 		case 3:
@@ -79,7 +80,7 @@ int main()
 			printf("Введите ключ\n");
 			scanf("%d", &key);
 
-			if(contains(tree, key))
+			if (contains(tree, key))
 			{
 				printf("Данный ключ существует.\n");
 				break;
