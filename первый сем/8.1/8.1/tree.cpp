@@ -94,29 +94,12 @@ char* getValue(Tree* tree, int key)
 	return get(tree->root, key);
 }
 
-bool find(Node* node, int key)
-{
-	if (node == nullptr)
-	{
-		return false;
-	}
-
-	if (key == node->key)
-	{
-		return true;
-	}
-
-	if (key < node->key)
-	{
-		return find(node->leftChild, key);
-	}
-
-	return find(node->rightChild, key);
-}
-
 bool contains(Tree* tree, int key)
 {
-	return find(tree->root, key);
+	char* value = get(tree->root, key);
+	bool answer = value != nullptr;
+	delete[] value;
+	return answer;
 }
 
 Node* findNodeClosestToMiddle(Node* node)
