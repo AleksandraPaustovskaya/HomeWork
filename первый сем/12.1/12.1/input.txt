@@ -1,0 +1,7 @@
+Indexes are essential for the efficient processing of database
+workloads. Proposed solutions for the relevant and challenging index selection problem range from metadata-based
+simple heuristics, over sophisticated multi-step algorithms,
+to approaches that yield optimal results. The main challenges are (i) to accurately determine the effect of an index
+on the workload cost while considering the interaction of
+indexes and (ii) a large number of possible combinations resulting from workloads containing many queries and massive
+schemata with possibly thousands of attributes.
