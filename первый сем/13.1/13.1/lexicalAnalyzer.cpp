@@ -2,86 +2,92 @@
 #include <ctype.h>
 #include "lexicalAnalyzer.h"
 
+enum type { entere, check, isNumber, isE, isSign, isNumberAfterSign, isNumberInTheLastCharacters};
+
+type state;
+
 bool lexicalAnalyzer(char* string)
 {
 	const int length = strlen(string);
-	int state = 0;
+
+	state = entere;
+
 	for (int i = 0; i < length + 1; ++i)
 	{
 		switch (state)
 		{
-		case 0:
+		case entere:
 			if (isdigit(string[i]))
 			{
-				state = 1;
+				state = check;
 				break;
 			}
 			return false;
 
-		case 1:
+		case check:
 			if (isdigit(string[i]))
 			{
-				state = 1;
+				state = check;
 				break;
 			}
 			if (string[i] == '.')
 			{
-				state = 2;
+				state = isNumber;
 				break;
 			}
 			if (string[i] == 'E')
 			{
-				state = 4;
+				state = isSign;
 				break;
 			}
 			return string[i] == '\0';
 
-		case 2:
+		case isNumber:
 			if (isdigit(string[i]))
 			{
-				state = 3;
+				state = isE;
 				break;
 			}
 			return false;
 
-		case 3:
+		case isE:
 			if (isdigit(string[i]))
 			{
-				state = 3;
+				state = isE;
 				break;
 			}
 			if (string[i] == 'E')
 			{
-				state = 4;
+				state = isSign;
 				break;
 			}
 			return string[i] == '\0';
 
-		case 4:
+		case isSign:
 			if (isdigit(string[i]))
 			{
-				state = 6;
+				state = isNumberInTheLastCharacters;
 				break;
 			}
 			if (string[i] == '+' || string[i] == '-')
 			{
-				state = 5;
+				state = isNumberAfterSign;
 				break;
 			}
 			return false;
 
-		case 5:
+		case isNumberAfterSign:
 			if (isdigit(string[i]))
 			{
-				state = 6;
+				state = isNumberInTheLastCharacters;
 				break;
 			}
 			return false;
 
-		case 6:
+		case isNumberInTheLastCharacters:
 			if (isdigit(string[i]))
 			{
-				state = 6;
+				state = isNumberInTheLastCharacters;
 				break;
 			}
 			return string[i] == '\0';
