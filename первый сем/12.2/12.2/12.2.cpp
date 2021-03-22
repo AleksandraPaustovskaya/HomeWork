@@ -5,8 +5,63 @@
 #include <stdio.h>
 #include "Prim.h"
 
+bool test()
+{
+	FILE* file = fopen("test.txt", "r");
+	int size = 0;
+	fscanf(file, "%d", &size);
+
+	int** testGraph = new int* [size];
+	for (int i = 0; i < size; ++i)
+	{
+		testGraph[i] = new int[size] {};
+		for (int j = 0; j < size; ++j)
+		{
+			fscanf(file, "%d", &testGraph[i][j]);
+		}
+	}
+
+	fclose(file);
+
+	FILE* fileAnswer = fopen("testAnswer.txt", "r");
+	fscanf(file, "%d", &size);
+
+	int** testGraphAnswer = new int* [size];
+	for (int i = 0; i < size; ++i)
+	{
+		testGraphAnswer[i] = new int[size] {};
+		for (int j = 0; j < size; ++j)
+		{
+			fscanf(fileAnswer, "%d", &testGraphAnswer[i][j]);
+		}
+	}
+
+	fclose(fileAnswer);
+
+	int** tree = createMinimalSpanningTree(testGraph, size);
+
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+		{
+			if (tree[i][j] != testGraphAnswer[i][j])
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
 int main()
 {
+	if (!test)
+	{
+		printf("error\n");
+		return -1;
+	}
+
 	FILE* file = fopen("input.txt", "r");
 	int size = 0;
 	fscanf(file, "%d", &size);
